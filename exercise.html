@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<a href="https://www.cnblogs.com/zhouyangla/p/7225335.html">快速入门教程</a>
+	
+
+	<script>
+		/*1.变量声明let（变量）,const（常量）
+		{}即为let,const的作用域*/
+		function a(i){
+			if(i){
+				var text='你好';
+			}else{
+				console.log(text);
+			}
+		}
+		a(0);//'undefined',因为var，变量的声明被提升到函数的顶部
+		//相当于：
+		/*function a(i) {
+		    var test; // 变量提升
+		    if(i) {
+		        test = '你好';
+		    } else {
+		        //此处访问test 值为undefined
+		        console.log(test)
+		    }
+		    //此处访问test 值为undefined
+		}*/
+		function b(i){
+			if(i){
+				let text='hello';
+			}else{
+				console.log(text);//'ReferenError',报错，因为访问不到
+			}
+		}
+
+		const name="liming";
+		// name='lily';//再次声明会报错
+
+		/*2.模板字符串`hello ${name}`
+		*反引号``保留内部格式（）可以为空格回车等
+		*${}放变量
+		*/
+		
+		console.log(`hello ${name}`);
+		console.log(`hello
+			${name}`);
+		const tem=`<div>
+			<i>tom</i>
+		</div>`;
+		console.log(tem);
+
+
+		//字符串方法
+		//1.includes：判断是否包含直接返回布尔值
+		let str='hello';
+		console.log(str.includes('e'));//'true'
+		//2.获取字符串重复次数
+		let s='he';
+		console.log(s.repeat(3));//'hehehe'
+		console.log(s.repeat(3.5));//小数采用math.floor()方法,即向下取整
+
+
+		/*3.函数
+		*
+		*/
+		//1.ES6为参数提供了默认值。在定义函数时便初始化了这个参数，以便在没有参数传入时使用
+		function c(num=200){
+			console.log(num);
+		}
+		c();//'200'
+		c(300);//'300'
+
+		/*箭头函数
+		*1.不用function关键字创建函数
+		*2.省略return关键字
+		*3.继承上下文的this关键字
+		*/
+		//ES5:
+		var e=[1,2,3].map(function d(x){
+			return x+1;
+		}.bind(this));
+		console.log(e);
+		//ES6:
+		let f=[1,2,3].map(x=>x+1);
+		console.log(f);
+		//当你的函数有且仅有一个参数的时候，是可以省略掉括号的。当你函数返回有且仅有一个表达式的时候可以省略{}；
+		function people(name){
+			var fname='h'+name;
+			return fname;
+		}
+		console.log(people('tom'));
+		//ES6:
+		let people1=name=>'h'+name;
+
+		console.log(people1('liming'));
+
+		//为对象字面量方法赋值，可以省略冒号与function关键字
+		var people2={
+			name:'liming',
+			sayName:function(){
+				console.log(name);
+			}
+		}
+		people2.sayName();
+		//es6：
+		const people3={
+			name:'liming',
+			sayName(){
+				console.log(name);
+			}
+		}
+		people3.sayName();
+
+		/*ES6提供浅复制方法Object.assign();
+		*第一个参数为目标对象，后面的为源对象，可以是多个
+		*/
+		var Obj1={
+			a:1,
+			b:2
+		}
+		var Obj2={
+			c:3,
+			d:4,
+			get(){
+				console.log('111');
+			}
+		}
+		const Obj=Object.assign({},Obj1,Obj2);
+		console.log(Obj);//'{a: 1, b: 2, c: 3, d: 4, get: ƒ}'
+		Obj.get();//'111'
+
+
+		/*5.解构：将一个数据结构分解为更小的部分
+		*能让我们从对象或者数组里取出数据存为变量
+		*/
+		//对象：
+		const people4={
+			name3:'tom',
+			age:12
+		}
+		const {name3,age}=people4;
+
+		console.log(`${name}=====${age}`)
+
+		//数组：
+		const color=['red','green'];
+		const [first,second]=color;
+
+		console.log(first);
+		console.log(second);
+
+		/*6.展开运算符（Spread Operator）...
+		*
+		*/
+
+		//1.组装对象或数组
+
+		//数组
+		const color1=['red','green'];
+		const corlorful=[...color,'yello','black'];
+		console.log(corlorful);//'["red", "green", "yello", "black"]'
+		//对象
+		const alp={
+			first:'a',
+			second:'b'
+		}
+		const alph={
+			...alp,
+			third:'c'
+		}
+		console.log(alph);//'{first: "a", second: "b", third: "c"}'
+
+		//2.获取数组或对象除了某几项的其他项
+		/*const number=[1,2,3,4,5];
+		const [first,...rest]=number;
+		console.log(rest);//'2,3,4,5'*/
+
+		const user={
+			userName:'lux',
+			gennder:'fam',
+			age:'9',
+			address:'peking'
+		}
+		const {userName,...rest}=user;
+		console.log(rest);//'{gennder: "fam", age: "9", address: "peking"}'
+
+		//3.组合成新的Object如果有重名，右边覆盖左边
+		const l={
+			a:'1',
+			b:'2',
+			c:'3'
+		}
+		const r={
+			a:'4',
+			n:'7'
+		}
+		const t={...l,...r};
+		console.log(t);//'{a: "4", b: "2", c: "3", n: "7"}'
+
+		/*7.import（导入）和export（导出）
+		*ES6自带模块化，导入导出的JS文件就为一个个模块
+		*/
+
+		//1.挨个导出
+		//lib.js
+		/*export function square(x){
+			return x*x;
+		}
+		export function sum(x,y){
+			return x+y;
+		}*/
+
+		//main.js
+		/*import {square,sum} from 'lib';
+		console.log(square(11));*/
+
+		//2.一起导出
+
+		/*function square(x){
+			return x*x;
+		}
+		function sum(x,y){
+			return x+y;
+		}
+		export{square,sum};*/
+
+		//3.默认导出
+		//a.js
+		/*var sex="boy";
+		export default sex;*///（sex不能加大括号）一个文件只能有一个默认导出
+
+		//main.js
+		/*import any from "./a.js"//不用带大括号
+		import any12 from "./a.js" //可以为它取任意名字都能访问到
+		console.log(any,any12) */  // boy,boy
+
+		//4.导入/导出别名
+
+		//a.js
+		/*export {
+		  name as v1, //允许使用不同名字输出两次
+		  name as v2,
+		  setName as setNameV1
+		}*/
+
+		//main.js
+		/*import {name as otherName } from './config';*/
+
+
+		/*8.Promise用同步方式写异步代码
+		*三种状态：pending,fulfilled,rejected（单项不可逆转）
+		*/
+		/*new Promise(function(resolve,reject){//执行异步操作
+			if(success){//成功pending->fulifilled
+				resolve();
+			}else{//失败pending->rejected
+				reject();
+			}
+		})*/
+		/*promise方法*/
+		//1.Promise.prototype.then();
+		/*调用后返回Promise对象。可以链式调用
+		除非内部抛出异常或是明确置为rejected状态，否则他返回的都是fullfilled态
+		他的状态不受上一级状态的影响
+		*/
+		//2.Promise.prototype.catch()
+		/*返回Promise对象，用于捕获异步操作时出现的异常*/
+		//3.promise.all()
+		/*接收一个可以迭代的参数，比如数组；
+		用来处理并发的异步操作，最终状态：成功或失败
+		他的状态受各个参数各个值的状态影响，里面全为fulfilled时，才为fulfilled，否则为rejected*/
+		//4.promise.race()
+		/*接收一个可以迭代的参数
+		他的状态不全部受参数内状态的影响，一旦参数内有一个值的状态发生改变，那么promise的状态就是改变的状态*/
+		//5.promise.resolve()
+		/*接受一个参数值，可以是普通的值，具有then()方法的对象和Promise实例
+		返回一个Promise对象，状态为fulfilled。
+		当解析时发生错误时，返回的Promise对象为rejected状态
+		*/
+		//6.promise.reject()
+		/*接收一个参数值reason，即发生异常的原因
+		返回的Promise对象将会置为rejected态
+		*/
+
+
+		/*9.Generators是能返回一个迭代器的函数
+		*比普通的function多了个星号*
+		*/
+		//生成器
+		function *createIterator(){//函数体内可以使用yield关键字,函数会在每个yield后暂停
+			yield 1;
+			yield 2;
+			yield 3;
+
+		}
+		//调用
+		let iter=createIterator();
+
+		console.log(iter);//返回一个迭代对象
+
+		//该对象有一个next()方法，帮助重启函数并得到下一个值
+		/*console.log(iter.next());*/
+		//'{value: 1, done: false}'返回一个对象，具有两个属性：done(是否已经停止提供值),value(获得的值)
+
+		console.log(iter.next().value);//'1'
+		console.log(iter.next().value);//'2'
+		console.log(iter.next().value);//'3'
+
+		//用途：在异步操作中，可以让代码等待。不用嵌套回调函数。（即：使用generator可以确保当异步调用在我们的generator函数运行一下行代码之前完成时暂停函数的执行。）
+		//调用生成器并启动迭代器的方法：
+		function run(taskDef) { //taskDef即一个生成器函数
+	        // 创建迭代器，让它在别处可用
+	        let task = taskDef();
+	        // 启动任务
+	        let result = task.next();
+	        // 递归使用函数来保持对 next() 的调用
+	        function step() {
+	            // 如果还有更多要做的
+	            if (!result.done) {
+	                result = task.next();
+	                step();
+	            }
+	        }
+	        // 开始处理过程
+	        step();
+	    }
+	</script>
+</body>
+</html>
